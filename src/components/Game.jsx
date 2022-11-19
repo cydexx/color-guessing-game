@@ -3,7 +3,7 @@ import "../css/main.css";
 
 function Game() {
   const [color, setColor] = useState("");
-
+  const [answers, setAnswers] = useState([]);
   const getRandomColor = () => {
     const digits = [
       "0",
@@ -31,7 +31,13 @@ function Game() {
     return `#${color}`;
   };
   useEffect(() => {
-    setColor(getRandomColor());
+    const actualColor = getRandomColor();
+    setColor(actualColor);
+    setAnswers(
+      [actualColor, getRandomColor(), getRandomColor()].sort(
+        () => 0.5 - Math.random()
+      )
+    );
   }, []);
 
   return (
@@ -40,10 +46,9 @@ function Game() {
         {color}
       </div>
       <div className="answers">
-        {/*3buttondan birinde random olarak doğru cevap olacak.*/}
-        <button className="btn">{color}</button>{" "}
-        <button className="btn">{getRandomColor()}</button>
-        <button className="btn">{getRandomColor()}</button>
+        {answers.map((answer) => (
+          <button key={answer}>{answer}</button>
+        ))}
       </div>
     </div>
   );
