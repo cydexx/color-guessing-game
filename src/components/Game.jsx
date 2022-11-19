@@ -36,11 +36,14 @@ function Game() {
 
   return (
     <div>
-      <div className="color-block" style={{ background: color }}></div>
+      <div className="color-block" style={{ background: color }}>
+        {color}
+      </div>
       <div className="answers">
-        <button className="btn"></button>
-        <button className="btn"></button>
-        <button className="btn"></button>
+        {/*3buttondan birinde random olarak doğru cevap olacak.*/}
+        <button className="btn">{color}</button>{" "}
+        <button className="btn">{getRandomColor()}</button>
+        <button className="btn">{getRandomColor()}</button>
       </div>
     </div>
   );
