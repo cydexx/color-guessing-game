@@ -31,7 +31,7 @@ var score = 0;
 function Game() {
   const [color, setColor] = useState("");
   const [answers, setAnswers] = useState([]);
-  const [isWrong, setIsWrong] = useState(false);
+  const [result, setResult] = useState(undefined);
 
   const generateColors = () => {
     const actualColor = getRandomColor();
@@ -46,12 +46,16 @@ function Game() {
     generateColors();
   }, []);
   const colorGuessEvent = (answer = String) => {
+    if (score < 0) {
+      score = 0; //the score does not drop to minus.
+    }
     if (answer === color) {
-      setIsWrong(false);
+      setResult(true);
       generateColors();
-      score++;
+      score = score + 100;
     } else {
-      setIsWrong(true);
+      setResult(false);
+      score = score - 50;
     }
   };
   return (
@@ -60,7 +64,7 @@ function Game() {
       <div className="color-block" style={{ background: color }}>
         {color}
       </div>
-      {isWrong && <div className="wrong"> Wrong Answer </div>}
+
       <div className="answers">
         {answers.map((answer) => (
           <button onClick={() => colorGuessEvent(answer)} key={answer}>
@@ -68,6 +72,9 @@ function Game() {
           </button>
         ))}
       </div>
+
+      {result == false && <div className="wrong">Wrong Answer</div>}
+      {result == true && <div className="correct">Correct!</div>}
     </div>
   );
 }
