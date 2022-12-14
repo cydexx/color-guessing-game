@@ -28,6 +28,7 @@ const getRandomColor = () => {
   return `#${color}`;
 };
 var score = 0;
+
 function Game() {
   const [color, setColor] = useState("");
   const [answers, setAnswers] = useState([]);
@@ -47,20 +48,25 @@ function Game() {
   }, []);
   const colorGuessEvent = (answer = String) => {
     if (score < 0) {
-      score = 0; //the score does not drop to minus.
+      score = 0;
     }
     if (answer === color) {
-      setResult(true);
-      generateColors();
+      setResult(true); // ! ekranın ortasında yazıcak CORRECT! yazısı ve ekran shake animasyonu olacak bir kere win'i belli edecek şekilde.
+      setTimeout(() => {
+        generateColors();
+      }, 1000);
+
       score = score + 100;
     } else {
-      setResult(false);
+      setResult(false); // ! ekranın ortasında yazıcak wrong yazısı ve ekran shake animasyonu olacak sağa sola.
       score = score - 50;
     }
   };
+
   return (
     <div className="colorgame-div">
       <div className="score-board"> Score: {score}</div>
+
       <div className="color-block" style={{ background: color }}>
         {color}
       </div>
@@ -73,8 +79,8 @@ function Game() {
         ))}
       </div>
 
-      {result == false && <div className="wrong">Wrong Answer</div>}
-      {result == true && <div className="correct">Correct!</div>}
+      {result === false && <div className="wrong">Wrong Answer</div>}
+      {result === true && <div className="correct">Correct!</div>}
     </div>
   );
 }
